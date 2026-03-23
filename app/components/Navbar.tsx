@@ -1,14 +1,29 @@
 "use client";
 
+import { useState } from "react";
+
 export default function Navbar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <nav style={styles.nav}>
-      <h2 style={styles.logo}>Akshay</h2>
+      <div className="logo-flip">
+        <div className="logo-inner">
+          <span className="logo-front">Akshay</span>
+          <span className="logo-back">Frontend Dev 🚀</span>
+        </div>
+      </div>
 
       <div style={styles.links}>
-        <a href="#projects" style={styles.link}>Projects</a>
-        <a href="#skills" style={styles.link}>Skills</a>
-        <a href="#contact" style={styles.link}>Contact</a>
+        <a href="#projects" className="nav-link">
+          Projects
+        </a>
+        <a href="#skills" className="nav-link">
+          Skills
+        </a>
+        <a href="#contact" className="nav-link">
+          Contact
+        </a>
       </div>
     </nav>
   );
@@ -36,6 +51,7 @@ const styles = {
     display: "flex",
     gap: "15px",
     flexWrap: "wrap" as const,
+    justifyContent: "center",
   },
   link: {
     color: "white",

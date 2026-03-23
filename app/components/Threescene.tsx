@@ -17,7 +17,7 @@ function CodeCube() {
 
   return (
     <mesh ref={meshRef}>
-      <boxGeometry args={[2, 2, 2]} />
+      <boxGeometry args={[3,3, 3]} />
       <meshStandardMaterial
   color="#00f0ff"
   emissive="#00f0ff"
@@ -30,7 +30,7 @@ function CodeCube() {
 
 export default function ThreeScene() {
   return (
-    <div style={{ height: "400px" }}>
+    <div style={{  width:"100%" , height: "300px" ,maxWidth:"400px"}}>
       <Canvas>
         <ambientLight intensity={0.5} />
         <directionalLight position={[2, 2, 2]} />

@@ -6,9 +6,12 @@ export default function WhatIBuild() {
   const items = [
     "Admin Dashboards",
     "Real-time Chat Systems (Socket.io)",
+    "Zoo Ticketing and Management Systems",
+    "Payment Integration",
     "Role-based Applications",
     "API-driven Web Apps",
     "Scalable Frontend Architecture",
+    "Task and Time Tracking Systems",
   ];
 
   return (

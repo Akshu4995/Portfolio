@@ -29,7 +29,8 @@ export default function Contact() {
                     Email Me
                 </a>
 
-                <a href="#"  style={styles.btn}
+                <a href="https://www.linkedin.com/in/akshay-chavan-234207163" target="_blank"
+                    rel="noopener noreferrer" style={styles.btn}
                     onMouseEnter={(e) =>
                         (e.currentTarget.style.boxShadow = "0 0 15px #cfabab")
                     }
@@ -47,9 +48,9 @@ export default function Contact() {
     );
 } const styles: { [key: string]: React.CSSProperties } = {
     container: {
-  padding: "100px 20px",
-  textAlign: "center",
-},
+        padding: "100px 20px",
+        textAlign: "center",
+    },
     heading: {
         fontSize: "32px",
         marginBottom: "20px",

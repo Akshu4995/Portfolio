@@ -27,15 +27,43 @@ body {
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #0a0a0a;
   color: white;
-
+  background: #0a0a0a;
+  overflow-x: hidden;
 }
+
+/* GRID BACKGROUND */
+body::before {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: -2;
+}
+
+/* GRADIENT GLOW */
+body::after {
+  content: "";
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.15), transparent);
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  filter: blur(120px);
+  z-index: -1;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
- /* RippleEffect CSS
+/* RippleEffect CSS
 .ripple {
   position: fixed;
   border-radius: 50%;
@@ -66,10 +94,19 @@ html {
 }
 
 @keyframes float {
-  0% { transform: translate(-50%, 0px); }
-  50% { transform: translate(-50%, -40px); }
-  100% { transform: translate(-50%, 0px); }
+  0% {
+    transform: translate(-50%, 0px);
+  }
+
+  50% {
+    transform: translate(-50%, -40px);
+  }
+
+  100% {
+    transform: translate(-50%, 0px);
+  }
 }
+
 ::-webkit-scrollbar {
   height: 6px;
 }
@@ -77,4 +114,86 @@ html {
 ::-webkit-scrollbar-thumb {
   background: #00f0ff;
   border-radius: 10px;
+}
+
+.nav-link {
+  position: relative;
+  color: white;
+  text-decoration: none;
+  padding: 5px 0;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background: #00f0ff;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #00f0ff;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.logo-flip {
+  perspective: 1000px;
+  display: inline-block;
+}
+
+.logo-inner {
+  position: relative;
+  width: 140px;
+  height: 30px;
+  transform-style: preserve-3d;
+  animation: flipAnimation 6s infinite;
+}
+
+.logo-front,
+.logo-back {
+  position: absolute;
+  width: 100%;
+  backface-visibility: hidden;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.logo-front {
+  color: white;
+}
+
+.logo-back {
+  color: #00f0ff;
+  transform: rotateY(180deg);
+}
+.logo-flip:hover .logo-inner {
+  animation-play-state: paused;
+}
+@keyframes flipAnimation {
+  0% { transform: rotateY(0deg); }
+  40% { transform: rotateY(0deg); }
+  50% { transform: rotateY(180deg); }
+  90% { transform: rotateY(180deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+@media (max-width: 768px) {
+  .carousel-container {
+    padding: 0 10px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
 }

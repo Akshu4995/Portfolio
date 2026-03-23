@@ -1,8 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { color, motion } from "framer-motion";
 import React from "react";
 import ThreeScene from "./Threescene";
+import { Color } from "three";
 
 export default function Hero() {
   return (
@@ -24,7 +25,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-           React & Next Js | Python | Real-time Apps 
+          React & Next Js | Python | Gen Ai Enthusiast
         </motion.h2>
 
         <motion.p
@@ -33,8 +34,7 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
         >
-          I build scalable web applications using React, Next.js, and TypeScript
-          with real-world features like admin dashboards and chat systems.
+          Software Developer skilled in React.js and Next.js, with <b>  2+years  </b>of experience, currently building AI-driven applications using Python and Generative AI.
         </motion.p>
       </div>
       <div
@@ -50,22 +50,26 @@ export default function Hero() {
 
 
 const containerStyle: React.CSSProperties = {
-  height: "100vh",
+  minHeight: "100vh",
   display: "flex",
+  flexWrap: "wrap", // IMPORTANT
   alignItems: "center",
-  justifyContent: "space-between",
-  padding: "0 40px",
-  position: "relative",
+  justifyContent: "center",
+  padding: "20px",
+  gap: "30px",
 };
 const leftStyle: React.CSSProperties = {
-  flex: 1,
+  flex: "1 1 300px,",
+  maxWidth: "500px",
 };
 
 const rightStyle: React.CSSProperties = {
-  flex: 1,
+  flex: "1 1 300px",
   display: "flex",
   justifyContent: "center",
 };
+
+
 
 const blobStyle: React.CSSProperties = {
   position: "absolute",
@@ -80,18 +84,18 @@ const blobStyle: React.CSSProperties = {
   animation: "float 6s ease-in-out infinite",
 };
 const titleStyle: React.CSSProperties = {
-  fontSize: "48px",
+  fontSize: "clamp(28px, 5vw, 48px)",
   fontWeight: "bold",
 };
 
 const subtitleStyle: React.CSSProperties = {
-  marginTop: "10px",
-  fontSize: "22px",
+  // marginTop: "10px",
+  fontSize: "clamp(16px, 3vw, 22px)",
   color: "#aaa",
 };
 
 const descStyle: React.CSSProperties = {
-  marginTop: "20px",
-  maxWidth: "500px",
+ fontSize: "clamp(14px, 2.5vw, 16px)",
+ lineHeight: 1.6,
   color: "#888",
 };

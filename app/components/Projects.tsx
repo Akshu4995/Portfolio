@@ -8,8 +8,11 @@ export default function Projects() {
 
 
   const [index, setIndex] = useState(0);
-  const cardWidth = 300;
-  const visibleWidth = 900; // 3 cards
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const cardWidth = 200;
+  const gap = 20;
+  const visibleWidth = 1000; // 3 cards
+  const offset = (900 - 300) / 2
 
   const visibleCount = 3;
 
@@ -24,52 +27,53 @@ export default function Projects() {
   const projects = [
     {
       title: "Trabajitos",
-      desc: "Job portal with Admin Panel & Real-time Chat (Socket.io)",
+      desc: "Job portal with real-time chat For Job Seekers and Employers",
       tech: "Next.js, Node.js",
-      features: ["Admin Panel", "Real-time Chat", "Multi-role"],
+      features: [" Payment Integration", "Admin Panel", "Real-time Chat", "Multi-role"],
       github: "#",
       live: "#",
     },
     {
       title: "Employee Portal",
-      desc: "Admin dashboard with HR management system",
-      tech: "React.js, Redux",
+      desc: "Employee management with role-based access and analytics dashboard For HR,employees and Managers",
+      tech: "React.js, Redux,Node.js",
       features: ["Admin Dashboard", "Role-based Access"],
       github: "#",
       live: "#",
     },
     {
-      title: "Project Management System",
-      desc: "Task tracking with analytics dashboard",
-      tech: "React.js, MUI",
-      features: ["Analytics", "Task Tracking"],
+      title: "Zoo",
+      desc: "Zoo Ticketing and Management System with features for ticket booking, animal info, and event management For Zoo Visitors and Staff",
+      tech: "React.js, Node.js",
+      features: ["Ticket Booking", "Payment Integration"],
       github: "#",
       live: "#",
     },
     {
       title: "Project Management System",
-      desc: "Task tracking with analytics dashboard",
-      tech: "React.js, MUI",
+      desc: "Task and Time tracking with analytics dashboard For Teams and Project Managers to improve productivity",
+      tech: "React.js, CSS Modules node.js",
       features: ["Analytics", "Task Tracking"],
       github: "#",
       live: "#",
     },
     {
-      title: "Project Management System",
-      desc: "Task tracking with analytics dashboard",
-      tech: "React.js, MUI",
+      title: "MedForEach",
+      desc: "Portal for medical professionals with appointment scheduling and patient management For Doctors and Patients",
+      tech: "Next.js, Python Redux",
       features: ["Analytics", "Task Tracking"],
       github: "#",
       live: "#",
     },
     {
-      title: "Project Management System",
-      desc: "Task tracking with analytics dashboard",
+      title: "CA-ERP",
+      desc: "Comprehensive ERP system with modules for inventory, sales, and finance For Small to Medium Businesses",
       tech: "React.js, MUI",
       features: ["Analytics", "Task Tracking"],
       github: "#",
       live: "#",
     },
+
   ];
 
   return (
@@ -80,13 +84,23 @@ export default function Projects() {
       <h2 style={styles.heading}>Projects</h2>
 
       <div style={styles.carousel}>
-        <button onClick={prev} style={styles.arrow}>◀</button>
+        <button
+          onClick={prev}
+          style={{ ...styles.arrow, left: "5px" }}
+        >
+          ◀
+        </button>
+
+
 
         <div style={styles.window}>
           <motion.div
             style={styles.track}
             animate={{
-              x: -(index * cardWidth - visibleWidth / 2 + cardWidth / 2),
+              x:
+                -index * (cardWidth + gap) +
+                visibleWidth / 2 -
+                cardWidth / 2,
             }}
             transition={{ type: "spring", stiffness: 60, damping: 20 }}
           >
@@ -107,7 +121,12 @@ export default function Projects() {
           </motion.div>
         </div>
 
-        <button onClick={next} style={styles.arrow}>▶</button>
+        <button
+          onClick={next}
+          style={{ ...styles.arrow, right: "5px" }}
+        >
+          ▶
+        </button>
       </div>
     </section>
   );
@@ -117,23 +136,28 @@ const styles: { [key: string]: React.CSSProperties } = {
   carousel: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    gap: "10px",
+    justifyContent: "center",// IMPORTANT
+    position: "relative",
+    width: "100%",
   },
 
- window: {
-  width: "900px",
-  overflow: "hidden",
-  perspective: "1000px",
-  position: "relative",
-  WebkitMaskImage:
-    "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-},
+  window: {
+    width: "100%",
+    maxWidth: "900px",
+    margin: "0 auto",
+    overflow: "hidden",
+    // display: "flex",
+    position: "relative",
+  },
 
   track: {
-  display: "flex",
-  transformStyle: "preserve-3d",
-},
+    display: "flex",
+    // alignItems: "center",
+    gap: "20px",
+    // justifyContent: "center", // Important
+    // paddingBottom: "10px",
+    // transformStyle: "preserve-3d",
+  },
 
   // card: {
   //   width: "280px",
@@ -145,16 +169,22 @@ const styles: { [key: string]: React.CSSProperties } = {
   // },
 
   arrow: {
-    background: "transparent",
+    position: "absolute",
+    top: "50%",
+    transform: "translateY(-50%)",
+    background: "rgba(0,0,0,0.6)",
     border: "1px solid #00f0ff",
     color: "#00f0ff",
     padding: "10px",
     borderRadius: "50%",
     cursor: "pointer",
+    zIndex: 20,
   },
   container: {
     padding: "100px 20px",
     textAlign: "center",
+    marginBottom: "0",
+    paddingBottom: "20px",
   },
   heading: {
     fontSize: "32px",
@@ -168,12 +198,14 @@ const styles: { [key: string]: React.CSSProperties } = {
     scrollSnapType: "x mandatory",
   },
   card: {
-    minWidth: "280px",
+    minWidth: "250px",
+    maxWidth: "1000px",
+    flex: "Wx0 0 auto",
     padding: "20px",
     borderRadius: "12px",
     background: "rgba(255,255,255,0.05)",
     border: "1px solid rgba(255,255,255,0.1)",
-    scrollSnapAlign: "start",
+    // scrollSnapAlign: "start",
     transition: "0.3s",
   },
   desc: {

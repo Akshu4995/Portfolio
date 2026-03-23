@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
@@ -10,6 +11,9 @@ import Footer from "./components/Footer";
 import RippleEffect from "./components/RippleEffect";
 import CursorGlow from "./components/CursorGlow";
 import ThreeScene from "./components/Threescene";
+import {useEffect} from "react";
+
+
 
 // export default function Home() {
 //   return (
@@ -77,19 +81,24 @@ import ThreeScene from "./components/Threescene";
 
 
 export default function Home() {
+    useEffect(() => {
+    if (window.location.hash) {
+      history.replaceState(null, "", window.location.pathname);
+    }
+  }, []);
   return (
     <main>
       <Hero />
       {/* <ThreeScene/> */}
-      <Navbar/>
-      <Projects/>
-      <WhatIBuild/>
-      <Skills/>
-      <Experience/>
-      <Contact/>
-      <Footer/>
+      <Navbar />
+      <Projects />
+      <WhatIBuild />
+      <Skills />
+      <Experience />
+      <Contact />
+      <Footer />
       {/* <RippleEffect/> */}
-      <CursorGlow/>
+      <CursorGlow />
     </main>
   );
 }
