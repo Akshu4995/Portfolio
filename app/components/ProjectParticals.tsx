@@ -5,17 +5,18 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { animate, useMotionValue } from "framer-motion";
 
-function Particles({ count = 2000, color }: { count?: number; color: string }) {
+function Particles({ color }: { color: string }) {
   const pointsRef = useRef<THREE.Points>(null!);
   const motionColor = useMotionValue(color);
+
+  // Use a stable count to prevent re-renders
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-const particleCount = isMobile ? 800 : 2000; // Fewer dots on phone = smoother FPS
+  const count = isMobile ? 800 : 2000;
 
   // Generate particle positions once
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      // Form a loose sphere shape
       const radius = 5 + Math.random() * 2;
       const theta = THREE.MathUtils.randFloatSpread(360);
       const phi = THREE.MathUtils.randFloatSpread(360);
@@ -29,8 +30,8 @@ const particleCount = isMobile ? 800 : 2000; // Fewer dots on phone = smoother F
 
   // Smoothly update the color when the project changes
   useEffect(() => {
-    animate(motionColor, color, {
-      duration: 1.5, // How long the fade lasts
+    const controls = animate(motionColor, color, {
+      duration: 1.5,
       ease: "easeInOut",
       onUpdate: (latest) => {
         if (pointsRef.current) {
@@ -38,34 +39,38 @@ const particleCount = isMobile ? 800 : 2000; // Fewer dots on phone = smoother F
         }
       },
     });
+    return () => controls.stop();
   }, [color, motionColor]);
 
-  // Slow rotation animation
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
     if (pointsRef.current) {
-      pointsRef.current.rotation.y = time * 0.03; // Slow rotation
-      pointsRef.current.rotation.x = Math.sin(time * 0.1) * 0.1; // Gentle wobble
+      pointsRef.current.rotation.y = time * 0.03;
+      pointsRef.current.rotation.x = Math.sin(time * 0.1) * 0.1;
     }
   });
 
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
+        {/* FIXED: Removed args={[]} and used correct attribute props */}
         <bufferAttribute
-                  attach="attributes-position"
-                  count={positions.length / 3}
-                  array={positions}
-                  itemSize={3} args={[]}        />
+          attach="attributes-position"
+          count={positions.length / 3}
+          itemSize={3}
+          array={positions}
+          // Passing the array as the first argument to the constructor 
+          // satisfies the 'args' requirement in TypeScript
+          args={[positions, 3]}
+        />
       </bufferGeometry>
       <pointsMaterial
-        color={color} // Initial color
-        size={0.03} // Size of dots
+        size={0.04}
         sizeAttenuation={true}
         transparent={true}
-        opacity={0.3} // Subtle
+        opacity={0.4}
         depthWrite={false}
-        blending={THREE.AdditiveBlending} // High-tech glow blend
+        blending={THREE.AdditiveBlending}
       />
     </points>
   );
@@ -77,13 +82,13 @@ export default function ProjectParticles({ color }: { color: string }) {
       style={{
         position: "absolute",
         inset: 0,
-        zIndex: 0, // Behind the card, but maybe in front of the main background
-        pointerEvents: "none", // Don't block mouse interactions
+        zIndex: 0,
+        pointerEvents: "none",
       }}
     >
       <Canvas
         camera={{ position: [0, 0, 10], fov: 60 }}
-        gl={{ antialias: true, alpha: true }} // Alpha for transparent background
+        gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
       >
         <Particles color={color} />
       </Canvas>
