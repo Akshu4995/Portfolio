@@ -1,257 +1,310 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-
+import ProjectParticles from "./ProjectParticals"
 
 export default function Projects() {
-
-
   const [index, setIndex] = useState(0);
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-  const cardWidth = 200;
-  const gap = 20;
-  const visibleWidth = 1000; // 3 cards
-  const offset = (900 - 300) / 2
 
-  const visibleCount = 3;
-
-  const next = () => {
-    setIndex((prev) => (prev + 1) % projects.length);
-  };
-
-  const prev = () => {
-    setIndex((prev) => (prev - 1 + projects.length) % projects.length);
-  };
+  const next = () => setIndex((prev) => (prev + 1) % projects.length);
+  const prev = () => setIndex((prev) => (prev - 1 + projects.length) % projects.length);
 
   const projects = [
     {
+      title: "Editorial AI",
+      description: "An AI-powered resume intelligence platform that analyzes CVs against job descriptions using Llama 3.3, featuring a multi-step editor and real-time matching scores.",
+      tech: ["Next.js", "FastAPI", "Python", "Redux"], 
+      color: "#00f0ff",
+      liveLink: "https://ai-resume-analyzer-lemon-ten.vercel.app/", // Replace with your actual URL
+      // github: "https://github.com/your-repo",   // Replace with your actual GitHub
+    },
+    {
       title: "Trabajitos",
-      desc: "Job portal with real-time chat For Job Seekers and Employers",
-      tech: "Next.js, Node.js",
-      features: [" Payment Integration", "Admin Panel", "Real-time Chat", "Multi-role"],
+      description: "Job portal with real-time chat for Job Seekers and Employers using WebSockets for instant communication.",
+      tech: ["Next.js", "Node.js", "Socket.io"],
+      color: "#00f0ff",
+      liveLink: "#", 
       github: "#",
-      live: "#",
     },
     {
       title: "Employee Portal",
-      desc: "Employee management with role-based access and analytics dashboard For HR,employees and Managers",
-      tech: "React.js, Redux,Node.js",
-      features: ["Admin Dashboard", "Role-based Access"],
+      description: "Enterprise-grade management system with role-based access control and detailed analytics dashboards.",
+      tech: ["React.js", "Redux", "Node.js"],
+      color: "#7000ff",
+      liveLink: "#",
       github: "#",
-      live: "#",
     },
     {
-      title: "Zoo",
-      desc: "Zoo Ticketing and Management System with features for ticket booking, animal info, and event management For Zoo Visitors and Staff",
-      tech: "React.js, Node.js",
-      features: ["Ticket Booking", "Payment Integration"],
+      title: "Zoo Ticketing",
+      description: "Modern ticketing system with animal information database and integrated event management features.",
+      tech: ["React.js", "Node.js", "Stripe"],
+      color: "#00ff8c",
+      liveLink: "#",
       github: "#",
-      live: "#",
-    },
-    {
-      title: "Project Management System",
-      desc: "Task and Time tracking with analytics dashboard For Teams and Project Managers to improve productivity",
-      tech: "React.js, CSS Modules node.js",
-      features: ["Analytics", "Task Tracking"],
-      github: "#",
-      live: "#",
     },
     {
       title: "MedForEach",
-      desc: "Portal for medical professionals with appointment scheduling and patient management For Doctors and Patients",
-      tech: "Next.js, Python Redux",
-      features: ["Analytics", "Task Tracking"],
+      description: "Comprehensive medical portal featuring automated appointment scheduling and secure patient record management.",
+      tech: ["Next.js", "Python", "FastAPI"],
+      color: "#ff0055",
+      liveLink: "#",
       github: "#",
-      live: "#",
     },
     {
       title: "CA-ERP",
-      desc: "Comprehensive ERP system with modules for inventory, sales, and finance For Small to Medium Businesses",
-      tech: "React.js, MUI",
-      features: ["Analytics", "Task Tracking"],
+      description: "Full-scale ERP solution for inventory tracking, sales forecasting, and financial reporting.",
+      tech: ["React.js", "MUI", "PostgreSQL"],
+      color: "#ffaa00",
+      liveLink: "#",
       github: "#",
-      live: "#",
     },
-
   ];
 
   return (
     <section id="projects" style={styles.container}>
-      <p style={{ color: "#888", marginBottom: "10px" }}>
-        ← Scroll to explore more →
-      </p>
-      <h2 style={styles.heading}>Projects</h2>
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
+        <p style={styles.overhead}>EXPLORE MY WORK</p>
+        <h2 style={styles.heading}>Featured Projects</h2>
+      </motion.div>
 
-      <div style={styles.carousel}>
-        <button
-          onClick={prev}
-          style={{ ...styles.arrow, left: "5px" }}
-        >
-          ◀
-        </button>
-
-
-
-        <div style={styles.window}>
-          <motion.div
-            style={styles.track}
-            animate={{
-              x:
-                -index * (cardWidth + gap) +
-                visibleWidth / 2 -
-                cardWidth / 2,
-            }}
-            transition={{ type: "spring", stiffness: 60, damping: 20 }}
-          >
-            {[...projects].map((project, i) => (
-              <div
-                key={i}
-                style={{
-                  ...styles.card,
-                  transform: i === index ? "scale(1.1)" : "scale(0.9)",
-                  opacity: i === index ? 1 : 0.8,
-                }}
-              >
-                <h3>{project.title}</h3>
-                <p style={styles.desc}>{project.desc}</p>
-                <p style={styles.tech}>{project.tech}</p>
-              </div>
-            ))}
-          </motion.div>
+      <div style={styles.wrapper}>
+        <div style={styles.progressContainer}>
+          {projects.map((_, i) => (
+            <div 
+              key={i} 
+              style={{
+                ...styles.progressBar,
+                background: i === index ? projects[i].color : "#333",
+                width: i === index ? "30px" : "10px",
+                boxShadow: i === index ? `0 0 10px ${projects[i].color}` : "none"
+              }} 
+            />
+          ))}
         </div>
 
-        <button
-          onClick={next}
-          style={{ ...styles.arrow, right: "5px" }}
-        >
-          ▶
-        </button>
+        <div style={styles.carouselContainer}>
+          <ProjectParticles color={projects[index].color} />
+          <button onClick={prev} style={styles.navBtn}>◀</button>
+
+          <div style={styles.perspectiveArea}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, rotateY: 30, x: 50, scale: 0.9 }}
+                animate={{ opacity: 1, rotateY: 0, x: 0, scale: 1 }}
+                exit={{ opacity: 0, rotateY: -30, x: -50, scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 100, damping: 15 }}
+                style={{
+                  ...styles.mainCard,
+                  border: `1px solid ${projects[index].color}44`,
+                  boxShadow: `0 20px 50px ${projects[index].color}10`,
+                }}
+              >
+                <div style={styles.cardContent}>
+                  <div style={{...styles.glow, backgroundColor: projects[index].color}} />
+                  
+                  <h3 style={styles.cardTitle}>{projects[index].title}</h3>
+                  <p style={styles.cardDesc}>{projects[index].description}</p>
+                  
+                  <div style={styles.techWrapper}>
+                    {projects[index].tech?.map((t, i) => (
+                      <span key={i} style={{...styles.badge, borderColor: projects[index].color, color: projects[index].color}}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div style={styles.btnGroup}>
+                    {/* LIVE DEMO LINK */}
+                    <motion.a 
+                      href={projects[index].liveLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{...styles.mainBtn, background: projects[index].color}}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <span style={styles.pulseDot} />
+                      Live Demo
+                    </motion.a>
+                    
+                    {/* GITHUB LINK */}
+                    <motion.a 
+                      href={projects[index].github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={styles.outlineBtn}
+                      whileHover={{ borderColor: projects[index].color, color: projects[index].color }}
+                    >
+                      GitHub
+                    </motion.a>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <button onClick={next} style={styles.navBtn}>▶</button>
+        </div>
       </div>
     </section>
   );
 }
+
 const styles: { [key: string]: React.CSSProperties } = {
-
-  carousel: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",// IMPORTANT
-    position: "relative",
-    width: "100%",
-  },
-
-  window: {
-    width: "100%",
-    maxWidth: "900px",
-    margin: "0 auto",
-    overflow: "hidden",
-    // display: "flex",
-    position: "relative",
-  },
-
-  track: {
-    display: "flex",
-    // alignItems: "center",
-    gap: "20px",
-    // justifyContent: "center", // Important
-    // paddingBottom: "10px",
-    // transformStyle: "preserve-3d",
-  },
-
-  // card: {
-  //   width: "280px",
-  //   margin: "0 10px",
-  //   padding: "20px",
-  //   borderRadius: "12px",
-  //   background: "rgba(255,255,255,0.05)",
-  //   border: "1px solid rgba(255,255,255,0.1)",
-  // },
-
-  arrow: {
-    position: "absolute",
-    top: "50%",
-    transform: "translateY(-50%)",
-    background: "rgba(0,0,0,0.6)",
-    border: "1px solid #00f0ff",
-    color: "#00f0ff",
-    padding: "10px",
-    borderRadius: "50%",
-    cursor: "pointer",
-    zIndex: 20,
-  },
   container: {
-    padding: "100px 20px",
+    padding: "80px 20px",
     textAlign: "center",
-    marginBottom: "0",
-    paddingBottom: "20px",
+  },
+  overhead: {
+    fontSize: "12px",
+    letterSpacing: "4px",
+    color: "#00f0ff",
+    marginBottom: "10px",
+    opacity: 0.8
   },
   heading: {
-    fontSize: "32px",
-    marginBottom: "40px",
+    fontSize: "clamp(32px, 5vw, 48px)",
+    fontWeight: "800",
+    marginBottom: "50px",
+    color: "#fff"
   },
-  grid: {
+  wrapper: {
+    maxWidth: "1200px",
+    margin: "0 auto",
+  },
+  progressContainer: {
     display: "flex",
-    overflowX: "auto",
+    justifyContent: "center",
+    gap: "8px",
+    marginBottom: "30px"
+  },
+  progressBar: {
+    height: "4px",
+    borderRadius: "2px",
+    transition: "all 0.4s ease"
+  },
+  carouselContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     gap: "20px",
-    paddingBottom: "10px",
-    scrollSnapType: "x mandatory",
+    position: "relative",
+    width: "100%",
+    minHeight: "500px",
+    zIndex: 1,
   },
-  card: {
-    minWidth: "250px",
-    maxWidth: "1000px",
-    flex: "Wx0 0 auto",
-    padding: "20px",
-    borderRadius: "12px",
-    background: "rgba(255,255,255,0.05)",
-    border: "1px solid rgba(255,255,255,0.1)",
-    // scrollSnapAlign: "start",
-    transition: "0.3s",
+  perspectiveArea: {
+    perspective: "1000px",
+    width: "100%",
+    maxWidth: "700px",
+    minHeight: "400px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  desc: {
-    marginTop: "10px",
+  mainCard: {
+    width: "100%",
+    background: "rgba(255, 255, 255, 0.02)",
+    backdropFilter: "blur(15px)",
+    borderRadius: "24px",
+    position: "relative",
+    overflow: "hidden",
+    padding: "40px",
+    textAlign: "left"
+  },
+  glow: {
+    position: "absolute",
+    top: "-100px",
+    right: "-100px",
+    width: "250px",
+    height: "250px",
+    filter: "blur(100px)",
+    opacity: 0.1,
+    zIndex: 0,
+  },
+  cardContent: {
+    position: "relative",
+    zIndex: 1,
+  },
+  cardTitle: {
+    fontSize: "clamp(24px, 4vw, 36px)",
+    fontWeight: "700",
+    marginBottom: "15px",
+    color: "#fff"
+  },
+  cardDesc: {
+    fontSize: "16px",
     color: "#aaa",
+    lineHeight: "1.6",
+    marginBottom: "30px",
   },
-  tech: {
-    marginTop: "10px",
-    fontSize: "14px",
-    color: "#00f0ff",
-  },
-  features: {
-    marginTop: "10px",
+  techWrapper: {
     display: "flex",
     flexWrap: "wrap",
-    gap: "6px",
-  },
-
-  badge: {
-    background: "#00f0ff22",
-    padding: "4px 8px",
-    borderRadius: "6px",
-    fontSize: "12px",
-  },
-
-  buttons: {
-    marginTop: "15px",
-    display: "flex",
     gap: "10px",
+    marginBottom: "40px"
   },
-
-  btn: {
-    padding: "6px 12px",
-    background: "#00f0ff",
-    color: "black",
-    borderRadius: "6px",
+  badge: {
+    padding: "6px 14px",
+    borderRadius: "20px",
+    fontSize: "11px",
+    border: "1px solid",
+    background: "rgba(255,255,255,0.03)",
+    fontWeight: "600",
+    textTransform: "uppercase"
+  },
+  btnGroup: {
+    display: "flex",
+    gap: "15px"
+  },
+  mainBtn: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    padding: "12px 24px",
+    borderRadius: "12px",
+    fontWeight: "700",
+    cursor: "pointer",
+    color: "#000",
+    textDecoration: "none",
+    fontSize: "14px"
+  },
+  outlineBtn: {
+    padding: "12px 24px",
+    borderRadius: "12px",
+    border: "1px solid #333",
+    background: "transparent",
+    color: "#fff",
+    cursor: "pointer",
     textDecoration: "none",
     fontSize: "14px",
+    transition: "all 0.3s ease"
   },
-
-  btnOutline: {
-    padding: "6px 12px",
-    border: "1px solid #00f0ff",
-    borderRadius: "6px",
-    textDecoration: "none",
-    fontSize: "14px",
-    color: "#00f0ff",
+  pulseDot: {
+    width: "8px",
+    height: "8px",
+    background: "#000",
+    borderRadius: "50%",
+    boxShadow: "0 0 8px rgba(0,0,0,0.5)",
   },
+  navBtn: {
+    background: "rgba(255,255,255,0.05)",
+    border: "1px solid rgba(255,255,255,0.1)",
+    color: "#fff",
+    width: "45px",
+    height: "45px",
+    borderRadius: "50%",
+    cursor: "pointer",
+    fontSize: "16px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 10
+  }
 };

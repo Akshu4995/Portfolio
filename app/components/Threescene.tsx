@@ -1,43 +1,62 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera, Float } from "@react-three/drei";
 import { useRef } from "react";
+import * as THREE from "three";
 
-function CodeCube() {
-  const meshRef = useRef<any>(null);
+function WireframeCore() {
+  const meshRef = useRef<THREE.Mesh>(null!);
 
-  useFrame(() => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x += 0.01;
-      meshRef.current.rotation.y += 0.01;
-      meshRef.current.position.y = Math.sin(Date.now() * 0.001) * 0.3;
-    }
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    // Rotating it on multiple axes for that high-tech "scanning" look
+    meshRef.current.rotation.y = t * 0.15;
+    meshRef.current.rotation.x = t * 0.1;
   });
 
   return (
-    <mesh ref={meshRef}>
-      <boxGeometry args={[3,3, 3]} />
-      <meshStandardMaterial
-  color="#00f0ff"
-  emissive="#00f0ff"
-  emissiveIntensity={0.5}
-  wireframe
-/>
-    </mesh>
+    <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
+      <mesh ref={meshRef}>
+        {/* Icosahedron gives those exact triangular wireframe lines from your image */}
+        <icosahedronGeometry args={[2, 0]} />
+        <meshBasicMaterial 
+          wireframe 
+          color="#00f0ff" 
+          transparent 
+          opacity={0.9}
+        />
+      </mesh>
+      
+      {/* Optional: A second, smaller wireframe inside for extra "AI Core" depth */}
+      <mesh scale={0.5}>
+        <icosahedronGeometry args={[2, 0]} />
+        <meshBasicMaterial 
+          wireframe 
+          color="#00f0ff" 
+          transparent 
+          opacity={0.3}
+        />
+      </mesh>
+    </Float>
   );
 }
 
 export default function ThreeScene() {
   return (
-    <div style={{  width:"100%" , height: "300px" ,maxWidth:"400px"}}>
+    // Keeping your original container and positioning
+    <div className="w-full h-[40vh] lg:h-[60vh] flex items-center justify-center relative z-0">
       <Canvas>
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[2, 2, 2]} />
+        <PerspectiveCamera makeDefault position={[0, 0, 6]} />
+        
+        <WireframeCore />
 
-        <CodeCube />
-
-        <OrbitControls enableZoom={false} />
+        <OrbitControls 
+          enableZoom={false} 
+          enablePan={false}
+          autoRotate 
+          autoRotateSpeed={0.5}
+        />
       </Canvas>
     </div>
   );
