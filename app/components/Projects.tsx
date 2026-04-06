@@ -10,60 +10,67 @@ export default function Projects() {
   const next = () => setIndex((prev) => (prev + 1) % projects.length);
   const prev = () => setIndex((prev) => (prev - 1 + projects.length) % projects.length);
 
-  const projects = [
-    {
-      title: "Editorial AI",
-      description: "An AI-powered resume intelligence platform that analyzes CVs against job descriptions using Llama 3.3, featuring a multi-step editor and real-time matching scores.",
-      tech: ["Next.js", "FastAPI", "Python", "Redux"], 
-      color: "#00f0ff",
-      liveLink: "https://ai-resume-analyzer-lemon-ten.vercel.app/", // Replace with your actual URL
-      // github: "https://github.com/your-repo",   // Replace with your actual GitHub
-    },
-    {
-      title: "Trabajitos",
-      description: "Job portal with real-time chat for Job Seekers and Employers using WebSockets for instant communication.",
-      tech: ["Next.js", "Node.js", "Socket.io"],
-      color: "#00f0ff",
-      liveLink: "#", 
-      github: "#",
-    },
-    {
-      title: "Employee Portal",
-      description: "Enterprise-grade management system with role-based access control and detailed analytics dashboards.",
-      tech: ["React.js", "Redux", "Node.js"],
-      color: "#7000ff",
-      liveLink: "#",
-      github: "#",
-    },
-    {
-      title: "Zoo Ticketing",
-      description: "Modern ticketing system with animal information database and integrated event management features.",
-      tech: ["React.js", "Node.js", "Stripe"],
-      color: "#00ff8c",
-      liveLink: "#",
-      github: "#",
-    },
-    {
-      title: "MedForEach",
-      description: "Comprehensive medical portal featuring automated appointment scheduling and secure patient record management.",
-      tech: ["Next.js", "Python", "FastAPI"],
-      color: "#ff0055",
-      liveLink: "#",
-      github: "#",
-    },
-    {
-      title: "CA-ERP",
-      description: "Full-scale ERP solution for inventory tracking, sales forecasting, and financial reporting.",
-      tech: ["React.js", "MUI", "PostgreSQL"],
-      color: "#ffaa00",
-      liveLink: "#",
-      github: "#",
-    },
-  ];
+  const projects: Array<{
+    title: string;
+    description: string;
+    tech: string[];
+    color: string;
+    liveLink?: string;
+    github?: string;
+  }> = [
+      {
+        title: "Editorial AI",
+        description: "An AI-powered resume intelligence platform that analyzes CVs against job descriptions using Llama 3.3, featuring a multi-step editor and real-time matching scores.",
+        tech: ["Next.js", "FastAPI", "Python", "Redux"],
+        color: "#00f0ff",
+        liveLink: "https://ai-resume-analyzer-lemon-ten.vercel.app/", // Replace with your actual URL
+        // github: "https://github.com/your-repo",   // Replace with your actual GitHub
+      },
+      {
+        title: "Trabajitos",
+        description: "Job portal with real-time chat for Job Seekers and Employers using WebSockets for instant communication.",
+        tech: ["Next.js", "Node.js", "Socket.io"],
+        color: "#00f0ff",
+        // liveLink: "#", 
+        // github: "#",
+      },
+      {
+        title: "Employee Portal",
+        description: "Enterprise-grade management system with role-based access control and detailed analytics dashboards.",
+        tech: ["React.js", "Redux", "Node.js"],
+        color: "#7000ff",
+        // liveLink: "#",
+        // github: "#",
+      },
+      {
+        title: "Zoo Ticketing",
+        description: "Modern ticketing system with animal information database and integrated event management features.",
+        tech: ["React.js", "Node.js", "Stripe"],
+        color: "#00ff8c",
+        // liveLink: "#",
+        // github: "#",
+      },
+      {
+        title: "MedForEach",
+        description: "Comprehensive medical portal featuring automated appointment scheduling and secure patient record management.",
+        tech: ["Next.js", "Python", "FastAPI"],
+        color: "#ff0055",
+        // liveLink: "#",
+        // github: "#",
+      },
+      {
+        title: "CA-ERP",
+        description: "Full-scale ERP solution for inventory tracking, sales forecasting, and financial reporting.",
+        tech: ["React.js", "MUI", "PostgreSQL"],
+        color: "#ffaa00",
+        // liveLink: "#",
+        // github: "#",
+      },
+    ];
 
   return (
     <section id="projects" style={styles.container}>
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -75,14 +82,14 @@ export default function Projects() {
       <div style={styles.wrapper}>
         <div style={styles.progressContainer}>
           {projects.map((_, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               style={{
                 ...styles.progressBar,
                 background: i === index ? projects[i].color : "#333",
                 width: i === index ? "30px" : "10px",
                 boxShadow: i === index ? `0 0 10px ${projects[i].color}` : "none"
-              }} 
+              }}
             />
           ))}
         </div>
@@ -106,43 +113,53 @@ export default function Projects() {
                 }}
               >
                 <div style={styles.cardContent}>
-                  <div style={{...styles.glow, backgroundColor: projects[index].color}} />
-                  
+                  <div style={{ ...styles.glow, backgroundColor: projects[index].color }} />
+
                   <h3 style={styles.cardTitle}>{projects[index].title}</h3>
                   <p style={styles.cardDesc}>{projects[index].description}</p>
-                  
+
                   <div style={styles.techWrapper}>
                     {projects[index].tech?.map((t, i) => (
-                      <span key={i} style={{...styles.badge, borderColor: projects[index].color, color: projects[index].color}}>
+                      <span key={i} style={{ ...styles.badge, borderColor: projects[index].color, color: projects[index].color }}>
                         {t}
                       </span>
                     ))}
                   </div>
 
                   <div style={styles.btnGroup}>
-                    {/* LIVE DEMO LINK */}
-                    <motion.a 
-                      href={projects[index].liveLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{...styles.mainBtn, background: projects[index].color}}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <span style={styles.pulseDot} />
-                      Live Demo
-                    </motion.a>
-                    
-                    {/* GITHUB LINK */}
-                    <motion.a 
-                      href={projects[index].github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={styles.outlineBtn}
-                      whileHover={{ borderColor: projects[index].color, color: projects[index].color }}
-                    >
-                      GitHub
-                    </motion.a>
+                    {/* ONLY show buttons for Editorial AI */}
+                    {projects[index].title === "Editorial AI" && (
+                      <>
+                        <motion.a
+                          href={projects[index].liveLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ ...styles.mainBtn, background: projects[index].color }}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <div style={styles.pulseDot} />
+                          Live Demo
+                        </motion.a>
+
+                        {/* <motion.a
+                          href={projects[index].github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={styles.outlineBtn}
+                          whileHover={{ borderColor: projects[index].color, color: projects[index].color }}
+                        >
+                          GitHub
+                        </motion.a> */}
+                      </>
+                    )}
+
+                    {/* Optional: Show a "Coming Soon" or different button for other projects */}
+                    {projects[index].title !== "Editorial AI" && (
+                      <span style={{ color: "#555", fontSize: "14px", fontWeight: "600" }}>
+                        CASE STUDY COMING SOON
+                      </span>
+                    )}
                   </div>
                 </div>
               </motion.div>
