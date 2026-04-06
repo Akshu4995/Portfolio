@@ -21,8 +21,8 @@ export default function Projects() {
       description: "An AI-powered resume intelligence platform that analyzes CVs against job descriptions using Llama 3.3, featuring a multi-step editor and real-time matching scores.",
       tech: ["Next.js", "FastAPI", "Python", "Redux"], 
       color: "#00f0ff",
-      liveLink: "https://your-live-link.com", 
-      github: "https://github.com/your-repo",   
+      liveLink: "https://ai-resume-analyzer-lemon-ten.vercel.app/", 
+      // github: "https://github.com/your-repo",   
     },
     {
       title: "Trabajitos",
